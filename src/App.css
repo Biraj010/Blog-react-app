@@ -1,0 +1,30 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.card {
+  margin: 1rem 3rem;
+  min-width: 30rem;
+}
+
+.hashtag {
+    margin: 0px 3px;
+}
+
+.alert {
+    margin-top: 1rem;
+}
+
+.create-post {
+    width: 80%;
+    margin-top: 4rem;
+    margin-left: 10%;
+}
