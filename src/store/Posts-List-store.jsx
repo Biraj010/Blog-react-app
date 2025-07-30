@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react";
 
+
 export const PostList = createContext({
   postList: [],
   addPost: () => {},
