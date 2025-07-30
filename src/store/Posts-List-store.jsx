@@ -1,9 +1,9 @@
 import { createContext, useReducer } from "react";
 
-
 export const PostList = createContext({
   postList: [],
   addPost: () => {},
+  addInitialPosts: () => {},
   deletePost: () => {},
 });
 
@@ -13,6 +13,9 @@ const postListReducer = (currentPostList, action) => {
     newPostList = currentPostList.filter(
       (post) => post.id !== action.payload.postId
     );
+  } else if (action.type === "ADD_INITIAL_POST") {
+    newPostList = action.payload.posts;
+    
   } else if (action.type === "ADD_POST") {
     newPostList = [action.payload, ...currentPostList];
   }
@@ -20,10 +23,7 @@ const postListReducer = (currentPostList, action) => {
 };
 
 const PostListProvider = ({ children }) => {
-  const [postList, dispatchPostList] = useReducer(
-    postListReducer,
-    DEFAULT_POST_LIST
-  );
+  const [postList, dispatchPostList] = useReducer(postListReducer, []);
   const addPost = (userId, postTitle, postBody, reactions, tags) => {
     dispatchPostList({
       type: "ADD_POST",
@@ -38,6 +38,15 @@ const PostListProvider = ({ children }) => {
     });
   };
 
+  const addInitialPosts = (posts) => {
+    dispatchPostList({
+      type: "ADD_INITIAL_POST",
+      payload: {
+        posts,
+      },
+    });
+  };
+
   const deletePost = (postId) => {
     dispatchPostList({
       type: "DELETE_POST",
@@ -48,28 +57,12 @@ const PostListProvider = ({ children }) => {
   };
 
   return (
-    <PostList.Provider value={{ postList, addPost, deletePost }}>
+    <PostList.Provider
+      value={{ postList, addPost, addInitialPosts, deletePost }}
+    >
       {children}
     </PostList.Provider>
   );
 };
-const DEFAULT_POST_LIST = [
-  {
-    Id: "1",
-    title: "Gooing to Dang",
-    body: "Hi I ma goind to Dang for my vacation",
-    reaction: "2",
-    userId: "user-9",
-    tags: ["Dang", "Vacation", "Travel"],
-  },
-  {
-    Id: "2",
-    title: "BIM pass",
-    body: "I have to pass the BIM exam",
-    reaction: "12",
-    userId: "user-12",
-    tags: ["BIM", "Exam", "Pass"],
-  },
-];
 
 export default PostListProvider;
