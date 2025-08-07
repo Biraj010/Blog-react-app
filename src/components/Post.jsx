@@ -22,9 +22,6 @@ const Post = ({ post }) => {
             {tag}
           </span>
         ))}
-        <div className="alert alert-primary" role="alert">
-          This post has been react by <strong>{post.reaction}</strong> people.
-        </div>
       </div>
     </div>
   );
