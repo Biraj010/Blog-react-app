@@ -1,19 +1,27 @@
-import { useContext } from "react";
 import Post from "./Post.jsx";
-import { PostList as PostListData } from "../store/Posts-List-store.jsx";
 import WelecomeMessage from "./WelcomeMessage.jsx";
 import LoadingSpinner from "./LoadingSpinner.jsx";
+import { useLoaderData } from "react-router-dom";
 
 const PostList = () => {
-  const { postList, fetching } = useContext(PostListData);
+  const postList = useLoaderData()
 
   return (
     <>
-      {fetching && <LoadingSpinner />}
-      {!fetching && postList.length === 0 && <WelecomeMessage />}
-      {!fetching && postList.map((post) => <Post key={post.id} post={post} />)}
+     
+      { postList.length === 0 && <WelecomeMessage />}
+      { postList.map((post) => (
+      <Post key={post.id} post={post} />
+      ))}
     </>
-  );
+  ); 
 };
+
+export const postLoader = () => {
+  return fetch("https://dummyjson.com/posts")
+      .then((res) => res.json())
+      .then((data) => {
+        return data.posts
+})}
 
 export default PostList;
